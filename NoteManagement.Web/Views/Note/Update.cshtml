@@ -1,0 +1,42 @@
+﻿@model NoteManagement.Core.DTOs.Note.NoteUpdateDto
+
+@{
+    ViewData["Title"] = "Update";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1> Note Update </h1>
+
+
+
+<div class="row">
+
+    <div class=col-md-12>
+
+        @using (Html.BeginForm("Update", "Note", FormMethod.Post))
+        {
+            @Html.HiddenFor(x => x.Id, new { @class = "form-control" })
+            @Html.Label("Title")
+            @Html.TextBoxFor(x => x.Title, new { @class = "form-control" })
+
+            <br />
+            @Html.Label("Text")
+            @Html.TextBoxFor(x => x.Text, new { @class = "form-control" })
+            <br />
+            @Html.Label("ParentNoteId")
+            @Html.TextBoxFor(x => x.ParentNoteId, new { @class = "form-control" })
+            <br />
+            @Html.Label("IsDeleted")
+            @Html.TextAreaFor(x => x.IsDeleted, 10, 3, new { @class = "form-control" })
+
+            <br />
+            <button class="btn btn-outline-success">Güncelle</button>
+        }
+
+
+
+    </div>
+
+
+</div>
+
