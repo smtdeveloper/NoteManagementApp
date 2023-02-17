@@ -5,38 +5,44 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1> Note Update </h1>
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item active"> <a href="/Note/Index">Notlar</a> / Not Güncelle   </li>
+</ol>
 
 
 
-<div class="row">
+@using (Html.BeginForm("Update", "Note", FormMethod.Post))
+{
+    <div class="row">
 
-    <div class=col-md-12>
+        <div class="col-6">
+            @Html.Label("Pasif Yap")
+            @Html.CheckBoxFor(x => x.IsDeleted, new { @class = "form-control" })
+        </div>
 
-        @using (Html.BeginForm("Update", "Note", FormMethod.Post))
-        {
+        <div class=col-md-12>
+
+
             @Html.HiddenFor(x => x.Id, new { @class = "form-control" })
-            @Html.Label("Title")
+            @Html.Label("Başlık")
             @Html.TextBoxFor(x => x.Title, new { @class = "form-control" })
 
             <br />
-            @Html.Label("Text")
+            @Html.Label("İçerik")
             @Html.TextBoxFor(x => x.Text, new { @class = "form-control" })
             <br />
-            @Html.Label("ParentNoteId")
+            @Html.Label("Ana Not ID")
             @Html.TextBoxFor(x => x.ParentNoteId, new { @class = "form-control" })
             <br />
-            @Html.Label("IsDeleted")
-            @Html.TextAreaFor(x => x.IsDeleted, 10, 3, new { @class = "form-control" })
+
 
             <br />
-            <button class="btn btn-outline-success">Güncelle</button>
-        }
+            <button class="btn btn-outline-warning">Güncelle</button>
 
 
+
+
+        </div>
 
     </div>
-
-
-</div>
-
+}

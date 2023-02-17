@@ -5,14 +5,67 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Detail</h1>
-
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item active"> <a href="/Note/Index">Notlar</a> / Not Detay   </li>
+</ol>
 
 <div class="row">
 
     <div class=col-md-12>
 
-        <h1> @Model.Title </h1>
+        <!-- Earnings (Monthly) Card Example -->
+        <div class="col-xl-3 col-md-12 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <h6> Oluşturma Tarihi : @Model.CreatedDate </h6> <br/>
+                    <div class="row no-gutters align-items-center">
+                       
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1"># @Model.Id  @Model.Title </div>
+                            <div class="h6 mb-0 font-weight-bold text-gray-800"> @Model.Text </div>
+                        </div>
+                        <div class="col-auto">
+                            @if (Model.IsDeleted)
+                            {
+                                <span class="badge badge-secondary">Pasif</span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-success">Aktif</span>
+                            }
+
+                            @if (Model.ParentNoteId > 0)
+                            {
+                                <h6> İç Not </h6>
+                                <p> Ana Not ID : @Model.ParentNoteId</p> 
+                            }
+                            else
+                            {
+                                <h5> Ana Not  </h5>
+                                <a class="btn btn-success " asp-controller="Note" asp-action="Save" asp-route-id="@Model.Id"> İç Not  Ekle </a>
+                            }
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="card-footer">
+                    
+                    <a class="btn btn-warning" asp-controller="Note" asp-action="Update" asp-route-id="@Model.Id"> Notu Güncelle </a>
+                    
+                    <div class="dropdown-divider"></div>
+                    
+
+                    <div class="col-auto rounded-right">
+
+
+                        <button class="btn btn-outline-danger" onclick="deletedNote(@Model.Id)"> Notu Sil </button>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
 
     </div>
 

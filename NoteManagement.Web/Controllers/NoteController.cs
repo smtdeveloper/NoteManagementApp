@@ -14,14 +14,14 @@ namespace NoteManagement.Web.Controllers
 {
     public class NoteController : Controller
     {
-       
+
 
         [HttpGet]
         public async Task<IActionResult> Index()
         {
             var client = new HttpClient();
             var response = await client.GetAsync("https://localhost:7229/api/notes/getall");
-            
+
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();
@@ -30,11 +30,11 @@ namespace NoteManagement.Web.Controllers
                 return View(noteList);
             }
 
-           return View(null);
+            return View(null);
 
         }
 
-        public  async Task<IActionResult> Detail(int id) 
+        public async Task<IActionResult> Detail(int id)
         {
             var client = new HttpClient();
             var response = await client.GetAsync($"https://localhost:7229/api/notes/getbyid/{id}");
@@ -53,16 +53,28 @@ namespace NoteManagement.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult Save() 
+        public async Task<IActionResult> Save(int? parentNoteId)
         {
+
+            ViewBag.ParantID = parentNoteId;
+
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Save(NoteDto noteDto) 
+        public async Task<IActionResult> Save(NoteDto noteDto)
         {
             var client = new HttpClient();
+
+            noteDto.IsDeleted = false;
+            noteDto.CreatedDate = DateTime.Now;
+            if (noteDto.Id > 0)
+            {
+                noteDto.ParentNoteId = noteDto.Id;
+                noteDto.Id = 0;
+            }
             var json = JsonConvert.SerializeObject(noteDto);
+
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             var response = await client.PostAsync("https://localhost:7229/api/notes/save", content);
 
@@ -77,8 +89,8 @@ namespace NoteManagement.Web.Controllers
 
         }
 
-       
-        public async Task<IActionResult> Remove(int id) 
+
+        public async Task<IActionResult> Remove(int id)
         {
             var client = new HttpClient();
             var response = await client.DeleteAsync($"https://localhost:7229/api/notes/remove/{id}");

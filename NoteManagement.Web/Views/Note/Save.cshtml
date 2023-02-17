@@ -4,22 +4,39 @@
     ViewData["Title"] = "Save";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item active"> <a href="/Note/Index">Notlar</a> / Yeni Not Ekle   </li>
+</ol>
 
-<h2>New Note</h2>
+
+<h1> @ViewBag.ParantID </h1>
+
+
+
+
+
+
+
+
 
 <form asp-controller="Note" asp-action="Save" method="post">
     <div class="form-group">
-        <label for="title">Title:</label>
+        <label for="title"> Başlık : </label>
         <input type="text" class="form-control" id="title" name="title" required>
     </div>
     <div class="form-group">
-        <label for="content">Content:</label>
+        <label for="content"> İçerik : </label>
         <textarea class="form-control" id="text" name="text" required></textarea>
     </div>
-    <div class="form-group">
-        <label for="content">ParentNoteId:</label>
-        <textarea class="form-control" id="ParentNoteId" name="ParentNoteId" required></textarea>
-    </div>
 
-    <button type="submit" class="btn btn-primary">Save</button>
+    @if (ViewBag.ParantID != null)
+    {
+        <div class="form-group">
+            <input class="form-control " value="@ViewBag.ParantID" id="ParentNoteId" name="ParentNoteId"></input>
+        </div>
+
+    }
+
+  
+    <button type="submit" class="btn btn-primary">Kaydet</button>
 </form>
