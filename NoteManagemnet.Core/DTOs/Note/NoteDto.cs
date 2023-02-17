@@ -8,5 +8,7 @@
         public string Text { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime CreatedDate { get; set; }
+
+        public ICollection<NoteDto>? SubNotes { get; set; } = new List<NoteDto>();
     }
 }

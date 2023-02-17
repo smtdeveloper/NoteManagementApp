@@ -61,7 +61,6 @@ namespace NoteManagement.API.Controllers
             await _noteService.UpdateAsync(entity);
 
             return CreateActionResult(CustomResponseDto<NoContentDto>.Success(204));
-
         }
 
         [HttpDelete("Remove/{id}")]

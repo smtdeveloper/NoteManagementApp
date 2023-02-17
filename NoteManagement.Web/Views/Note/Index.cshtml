@@ -6,37 +6,147 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<table class="table">
-    <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Title</th>
-        </tr>
-    </thead>
-
-    <tbody>
-
-        @foreach (var item in Model)
-        {
-            <tr>
-
-                <th scope="row">@item.Id</th>
-                <td>@item.ParentNoteId</td>
-                <td>@item.Title</td>
-                <td>@item.Text</td>
-                <td>@item.CreatedDate</td>
-                <td>@item.IsDeleted</td>
-
-                <td>  <a class="btn btn-warning" asp-controller="Note" asp-action="Update" asp-route-id="@item.Id">Update</a> </td>
-                <td>  <a class="btn btn-success" asp-controller="Note" asp-action="Detail" asp-route-id="@item.Id">Detail</a> </td>
-                <td> <button class="btn btn-outline-danger" onclick="deletedNote(@item.Id)">Sil</button> </td>
-            
-            </tr>
-        }
 
 
-    </tbody>
-</table>
+
+@foreach (var item in Model)
+{
+    <div class="col-lg-12">
+        <!-- Dropdown Card Example -->
+        <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary"> # @item.Id / @item.Title </h6>
+                <div class="dropdown no-arrow">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                        <div class="dropdown-header">İşlemler: </div>
+                        <a class="btn btn-secondary " asp-controller="Note" asp-action="Detail" asp-route-id="@item.Id"> Detay </a>
+                        <a class="btn btn-warning" asp-controller="Note" asp-action="Update" asp-route-id="@item.Id">Update</a>
+                        <button class="btn btn-outline-danger" onclick="deletedNote(@item.Id)">Sil</button>
+                        <div class="dropdown-divider"></div>
+                        <h6> Oluşturma Tarihi : @item.CreatedDate </h6>
+
+                    </div>
+                </div>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+                @item.Text
+            </div>
+
+            <div class="card-footer">
+                @if (item.SubNotes != null && item.SubNotes.Any())
+                {
+                    
+                }
+
+
+
+
+            </div>
+
+        </div>
+
+
+
+    </div>
+
+
+}
+
+
+
+
+@*@foreach (var item in Model)
+{
+
+    @if (item.ParentNoteId == null)
+    {
+        <div class="col-lg-12">
+
+            <!-- Dropdown Card Example -->
+            <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary"> # @item.Id / @item.Title </h6>
+                    <div class="dropdown no-arrow">
+                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                            <div class="dropdown-header">İşlemler: </div>
+                            <a class="btn btn-secondary " asp-controller="Note" asp-action="Detail" asp-route-id="@item.Id"> Detay </a>
+                            <a class="btn btn-warning" asp-controller="Note" asp-action="Update" asp-route-id="@item.Id">Update</a>
+                            <button class="btn btn-outline-danger" onclick="deletedNote(@item.Id)">Sil</button>
+                            <div class="dropdown-divider"></div>
+                            <h6> Oluşturma Tarihi : @item.CreatedDate </h6>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                    @item.Text
+                </div>
+
+                <div class="card-footer">
+
+                    @foreach (var SubNote in Model)
+                    {
+                        @if (item.Id == SubNote.ParentNoteId)
+                        {
+                            <div class="col-lg-12">
+
+                                <!-- Dropdown Card Example -->
+                                <div class="card shadow mb-4">
+                                    <!-- Card Header - Dropdown -->
+                                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                        <h6 class="m-0 font-weight-bold text-primary"> # @item.Id / @SubNote.Title </h6>
+                                        <div class="dropdown-header"> Ana Not Id : @SubNote.ParentNoteId </div>
+                                        <div class="dropdown no-arrow">
+                                            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                                                <div class="dropdown-header">İşlemler: </div>
+                                                <a class="btn btn-secondary " asp-controller="Note" asp-action="Detail" asp-route-id="@SubNote.Id"> Detay </a> <br> </br>
+                                                <a class="btn btn-warning" asp-controller="Note" asp-action="Update" asp-route-id="@SubNote.Id">Update</a> <br> </br>
+                                                <button class="btn btn-outline-danger" onclick="deletedNote(@SubNote.Id)">Sil</button>
+                                                <div class="dropdown-divider"></div>
+                                                <h6> Oluşturma Tarihi : @SubNote.CreatedDate </h6>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Card Body -->
+                                    <div class="card-body">
+                                        @SubNote.Text
+                                    </div>
+
+
+                                </div>
+
+
+
+                            </div>
+                        }
+                    }
+
+                </div>
+
+            </div>
+
+
+
+        </div>
+    }
+
+}
+*@
+
 
 
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
